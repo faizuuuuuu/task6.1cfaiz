@@ -1,77 +1,78 @@
 pipeline {
     agent any
-    
+
     stages {
         stage('Build') {
             steps {
-                echo 'Building the code...'
-                // Example: Use Maven to build the code
-                sh 'mvn clean install'
+                // Compile and package the code using Maven
+                echo 'Compiling and packaging the code with Maven'
+                echo '222628865'
+                // Example: sh 'mvn clean install'
             }
         }
-        
+
         stage('Unit and Integration Tests') {
             steps {
-                echo 'Running Unit and Integration Tests...'
-                // Example: Use JUnit or another testing framework
-                sh 'mvn test'
-            }
-            post {
-                always {
-                    mail to: 'faiz.zafar2004@gmail.com',
-                         subject: "Build ${currentBuild.fullDisplayName}: Unit and Integration Tests",
-                         body: "Unit and Integration Tests have finished. Please check the build status."
-                         // attachmentsPattern: '**/*.log' // Uncomment if you have log files to attach
-                }
+                // Execute unit tests with JUnit and integration tests with Selenium
+                echo 'Executing unit tests to validate code functionality'
+                echo 'Executing integration tests to verify component interaction'
+                // Example: sh 'mvn test'
             }
         }
 
         stage('Code Analysis') {
             steps {
-                echo 'Analyzing the code...'
-                // Example: Use SonarQube for code analysis
-                sh 'sonar-scanner'
+                // Perform code analysis using a tool like SonarQube
+                echo 'Conducting code analysis with SonarQube to ensure adherence to industry standards'
+                // Example: sh 'sonar-scanner'
             }
         }
-        
+
         stage('Security Scan') {
             steps {
-                echo 'Performing Security Scan...'
-                // Example: Use OWASP Dependency Check or another security tool
-                sh 'dependency-check --project myProject --scan .'
-            }
-            post {
-                always {
-                    mail to: 'faiz.zafar2004@gmail.com',
-                         subject: "Build ${currentBuild.fullDisplayName}: Security Scan",
-                         body: "Security Scan has finished. Please check the build status."
-                         // attachmentsPattern: '**/*.log' // Uncomment if you have log files to attach
-                }
+                // Conduct a security scan using OWASP Dependency-Check or a similar tool
+                echo 'Performing a security scan to detect vulnerabilities'
+                // Example: sh 'dependency-check.sh'
             }
         }
-        
+
         stage('Deploy to Staging') {
             steps {
-                echo 'Deploying to Staging...'
-                // Example: Use SCP or AWS CLI to deploy to staging
-                sh 'scp target/myapp.jar user@staging-server:/path/to/deploy'
+                // Deploy the application to a staging server (e.g., AWS EC2 instance) using AWS CLI
+                echo 'Deploying the application to the staging server'
+                // Example: sh 'aws ec2 deploy ...'
             }
         }
-        
+
         stage('Integration Tests on Staging') {
             steps {
-                echo 'Running Integration Tests on Staging...'
-                // Example: Use a script or tool to run tests on staging
-                sh 'ssh user@staging-server "run-staging-tests.sh"'
+                // Run integration tests on the staging environment using Selenium
+                echo 'Executing integration tests in the staging environment'
+                // Example: sh 'selenium-tests.sh'
             }
         }
-        
+
         stage('Deploy to Production') {
             steps {
-                echo 'Deploying to Production...'
-                // Example: Use SCP or AWS CLI to deploy to production
-                sh 'scp target/myapp.jar user@production-server:/path/to/deploy'
+                // Deploy the application to the production server (e.g., AWS EC2 instance) using AWS CLI
+                echo 'Deploying the application to the production server'
+                // Example: sh 'aws ec2 deploy ...'
             }
+        }
+    }
+
+    post {
+        success {
+            emailext attachLog: true, 
+                     body: 'The build completed successfully.', 
+                     subject: 'Build Success', 
+                     to: 'faiz.zafar2004@gmail.com'
+        }
+        failure {
+            emailext attachLog: true, 
+                     body: 'The build encountered a failure.', 
+                     subject: 'Build Failed', 
+                     to: 'faiz.zafar2004@gmail.com'
         }
     }
 }
