@@ -5,75 +5,72 @@ pipeline {
         stage('Build') {
             steps {
                 // Compile and package the code using Maven
-                echo 'Compiling and packaging the code with Maven'
-                echo '222628865'
-                // Example: sh 'mvn clean install'
+                echo 'Compiling and packaging the code using Maven'
+                // sh 'mvn clean install'
             }
         }
 
         stage('Unit and Integration Tests') {
             steps {
-                // Execute unit tests with JUnit and integration tests with Selenium
-                echo 'Executing unit tests to validate code functionality'
-                echo 'Executing integration tests to verify component interaction'
-                // Example: sh 'mvn test'
+                // running and Executing unit tests and integration tests with Junit and Selenium 
+                echo 'running the unit tests  integration tests to validate code'
+                
             }
         }
 
         stage('Code Analysis') {
             steps {
-                // Perform code analysis using a tool like SonarQube
-                echo 'Conducting code analysis with SonarQube to ensure adherence to industry standards'
-                // Example: sh 'sonar-scanner'
+                // using tools like SonarQube 
+                echo 'Perform code analysis using SonarQube'
+                //  sh 'sonar-scanner'
             }
         }
 
         stage('Security Scan') {
             steps {
-                // Conduct a security scan using OWASP Dependency-Check or a similar tool
-                echo 'Performing a security scan to detect vulnerabilities'
-                // Example: sh 'dependency-check.sh'
+                // Performing Security Scan using OWASP Dependency-Check
+                echo 'Performing a security scan  using security scan tool (e.g., OWASP Dependency Check)'
+                // sh 'dependency-check.sh Project - task6.1c'
             }
         }
 
         stage('Deploy to Staging') {
             steps {
-                // Deploy the application to a staging server (e.g., AWS EC2 instance) using AWS CLI
-                echo 'Deploying the application to the staging server'
-                // Example: sh 'aws ec2 deploy ...'
+                // adding to the staging area using the (AWS CLI commands)
+                echo 'Deploying the application and adding to the staging area '
+                //sh 'aws ec2 deploy'
             }
         }
 
         stage('Integration Tests on Staging') {
             steps {
-                // Run integration tests on the staging environment using Selenium
-                echo 'Executing integration tests in the staging environment'
-                // Example: sh 'selenium-tests.sh'
+                // Run integration tests using (Selenium) on the staging environment
+                echo 'Run integration tests using  in the staging environment'
+                // sh 'mvn integration-test'
             }
         }
 
         stage('Deploy to Production') {
             steps {
-                // Deploy the application to the production server (e.g., AWS EC2 instance) using AWS CLI
-                echo 'Deploying the application to the production server'
-                // Example: sh 'aws ec2 deploy ...'
+                // Deploying to Production using AWS CLI commands
+                echo 'Deploying the application to the production server using AWS EC2 instance'
+                // sh 'aws deploy'
             }
         }
     }
 
     post {
-        always {
-            echo "Pipeline completed"
+
+    success {
+            mail to: 'faiz.zafar2004@gmail.com',
+                 subject: "Pipeline completed successfully!!!!!!!",
+                 body: "The pipeline has successfully completed all stages and The build completed successfully."
         }
         failure {
             mail to: 'faiz.zafar2004@gmail.com',
-                 subject: "Jenkins Pipeline Failed",
-                 body: "The pipeline has failed at some stage. Please check Jenkins for details."
+                 subject: " Pipeline Failed !!!!!!!!!",
+                 body: "The build has failed. Please check."
         }
-        success {
-            mail to: 'faiz.zafar2004@gmail.com',
-                 subject: "Jenkins Pipeline Succeeded",
-                 body: "The pipeline has successfully completed all stages."
-        }
+    
     }
 }
