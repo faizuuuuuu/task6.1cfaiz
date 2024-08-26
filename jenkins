@@ -62,17 +62,18 @@ pipeline {
     }
 
     post {
-        success {
-            emailext attachLog: true, 
-                     body: 'The build completed successfully.', 
-                     subject: 'Build Success', 
-                     to: 'faiz.zafar2004@gmail.com'
+        always {
+            echo "Pipeline completed"
         }
         failure {
-            emailext attachLog: true, 
-                     body: 'The build encountered a failure.', 
-                     subject: 'Build Failed', 
-                     to: 'faiz.zafar2004@gmail.com'
+            mail to: 'faiz.zafar2004@gmail.com',
+                 subject: "Jenkins Pipeline Failed",
+                 body: "The pipeline has failed at some stage. Please check Jenkins for details."
+        }
+        success {
+            mail to: 'faiz.zafar2004@gmail.com',
+                 subject: "Jenkins Pipeline Succeeded",
+                 body: "The pipeline has successfully completed all stages."
         }
     }
 }
