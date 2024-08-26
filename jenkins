@@ -20,8 +20,8 @@ pipeline {
                 always {
                     mail to: 'faiz.zafar2004@gmail.com',
                          subject: "Build ${currentBuild.fullDisplayName}: Unit and Integration Tests",
-                         body: "Unit and Integration Tests have finished. Please check the build status.",
-                         attachLog: true
+                         body: "Unit and Integration Tests have finished. Please check the build status."
+                         // attachmentsPattern: '**/*.log' // Uncomment if you have log files to attach
                 }
             }
         }
@@ -42,10 +42,10 @@ pipeline {
             }
             post {
                 always {
-                    mail to: 'developer@example.com',
+                    mail to: 'faiz.zafar2004@gmail.com',
                          subject: "Build ${currentBuild.fullDisplayName}: Security Scan",
-                         body: "Security Scan has finished. Please check the build status.",
-                         attachLog: true
+                         body: "Security Scan has finished. Please check the build status."
+                         // attachmentsPattern: '**/*.log' // Uncomment if you have log files to attach
                 }
             }
         }
